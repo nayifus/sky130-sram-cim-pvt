@@ -1,0 +1,147 @@
+** sch_path: /home/blazeinkid/cim_project/schematics/column8t_tb.sch
+**.subckt column8t_tb
+xcol CL VDD WWL1 RWL1 WBL WBLB SHARE_B SHARE PRE_B WWL2 RWL2 WWL3 RWL3 WWL4 RWL4 WWL5 RWL5 WWL6 RWL6 WWL7 RWL7 WWL8 RWL8 column8t
+**** begin user architecture code
+
+
+.lib /usr/local/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice ff
+
+.param vdd_v=1.8
+.param tmp=27
+.temp {tmp}
+.param csig=0
+.param td=0.5e-9
+.param ts={10.5e-9+td}
+.param kk=0
+.param ii=1
+.param in1={ii} in2={ii} in3={ii} in4={ii} in5={ii} in6={ii} in7={ii} in8={ii}
+.param w1={kk>=1} w2={kk>=2} w3={kk>=3} w4={kk>=4} w5={kk>=5} w6={kk>=6} w7={kk>=7} w8={kk>=8}
+
+.ic v(xcol.x1.q)={w1*vdd_v} v(xcol.x1.qb)={(1-w1)*vdd_v}
+.ic v(xcol.x2.q)={w2*vdd_v} v(xcol.x2.qb)={(1-w2)*vdd_v}
+.ic v(xcol.x3.q)={w3*vdd_v} v(xcol.x3.qb)={(1-w3)*vdd_v}
+.ic v(xcol.x4.q)={w4*vdd_v} v(xcol.x4.qb)={(1-w4)*vdd_v}
+.ic v(xcol.x5.q)={w5*vdd_v} v(xcol.x5.qb)={(1-w5)*vdd_v}
+.ic v(xcol.x6.q)={w6*vdd_v} v(xcol.x6.qb)={(1-w6)*vdd_v}
+.ic v(xcol.x7.q)={w7*vdd_v} v(xcol.x7.qb)={(1-w7)*vdd_v}
+.ic v(xcol.x8.q)={w8*vdd_v} v(xcol.x8.qb)={(1-w8)*vdd_v}
+
+Vsup VDD 0 {vdd_v}
+Vwbl WBL 0 0
+Vwblb WBLB 0 0
+Vww1 WWL1 0 0
+Vww2 WWL2 0 0
+Vww3 WWL3 0 0
+Vww4 WWL4 0 0
+Vww5 WWL5 0 0
+Vww6 WWL6 0 0
+Vww7 WWL7 0 0
+Vww8 WWL8 0 0
+
+Vpre PRE_B 0 PWL(0 0 9.9n 0 10n {vdd_v})
+Vsh SHARE 0 PWL(0 {vdd_v} 9.9n {vdd_v} 10n 0 {ts-0.1e-9} 0 {ts} {vdd_v})
+Vshb SHARE_B 0 PWL(0 0 9.9n 0 10n {vdd_v} {ts-0.1e-9} {vdd_v} {ts} 0)
+
+Vr1 RWL1 0 PWL(0 0 10.1n 0 10.2n {in1*vdd_v} {10.2e-9+td} {in1*vdd_v} {10.3e-9+td} 0)
+Vr2 RWL2 0 PWL(0 0 10.1n 0 10.2n {in2*vdd_v} {10.2e-9+td} {in2*vdd_v} {10.3e-9+td} 0)
+Vr3 RWL3 0 PWL(0 0 10.1n 0 10.2n {in3*vdd_v} {10.2e-9+td} {in3*vdd_v} {10.3e-9+td} 0)
+Vr4 RWL4 0 PWL(0 0 10.1n 0 10.2n {in4*vdd_v} {10.2e-9+td} {in4*vdd_v} {10.3e-9+td} 0)
+Vr5 RWL5 0 PWL(0 0 10.1n 0 10.2n {in5*vdd_v} {10.2e-9+td} {in5*vdd_v} {10.3e-9+td} 0)
+Vr6 RWL6 0 PWL(0 0 10.1n 0 10.2n {in6*vdd_v} {10.2e-9+td} {in6*vdd_v} {10.3e-9+td} 0)
+Vr7 RWL7 0 PWL(0 0 10.1n 0 10.2n {in7*vdd_v} {10.2e-9+td} {in7*vdd_v} {10.3e-9+td} 0)
+Vr8 RWL8 0 PWL(0 0 10.1n 0 10.2n {in8*vdd_v} {10.2e-9+td} {in8*vdd_v} {10.3e-9+td} 0)
+
+.tran 0.02n 16n uic
+.save v(CL) v(xcol.x1.net1)
+.control
+set cname = ff
+foreach vv 1.62 1.8 1.98
+  foreach tv -40 27 125
+    foreach iv 1 0
+      alterparam vdd_v=$vv
+      alterparam tmp=$tv
+      alterparam ii=$iv
+      reset
+      run
+      meas tran vcl find v(cl) at=13n
+      echo $cname $vv $tv $iv $&vcl >> delta_results.csv
+    end
+  end
+end
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  column8t.sym # of pins=23
+** sym_path: /home/blazeinkid/cim_project/schematics/column8t.sym
+** sch_path: /home/blazeinkid/cim_project/schematics/column8t.sch
+.subckt column8t CL VDD WWL1 RWL1 WBL WBLB SHARE_B SHARE PRE_B WWL2 RWL2 WWL3 RWL3 WWL4 RWL4 WWL5 RWL5 WWL6 RWL6 WWL7 RWL7 WWL8
++ RWL8
+*.iopin VDD
+*.ipin WBL
+*.ipin WBLB
+*.ipin SHARE_B
+*.ipin SHARE
+*.ipin PRE_B
+*.opin CL
+*.ipin WWL1
+*.ipin RWL1
+*.ipin WWL2
+*.ipin RWL2
+*.ipin WWL3
+*.ipin RWL3
+*.ipin WWL4
+*.ipin RWL4
+*.ipin WWL5
+*.ipin RWL5
+*.ipin WWL6
+*.ipin RWL6
+*.ipin WWL7
+*.ipin RWL7
+*.ipin WWL8
+*.ipin RWL8
+x1 CL VDD WWL1 RWL1 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+x2 CL VDD WWL2 RWL2 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+x3 CL VDD WWL3 RWL3 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+x4 CL VDD WWL4 RWL4 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+x5 CL VDD WWL5 RWL5 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+x6 CL VDD WWL6 RWL6 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+x7 CL VDD WWL7 RWL7 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+x8 CL VDD WWL8 RWL8 WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+.ends
+
+
+* expanding   symbol:  sram8t_bitcell.sym # of pins=9
+** sym_path: /home/blazeinkid/cim_project/schematics/sram8t_bitcell.sym
+** sch_path: /home/blazeinkid/cim_project/schematics/sram8t_bitcell.sch
+.subckt sram8t_bitcell CL VDD WWL RWL WBL WBLB SHARE_B SHARE PRE_B
+*.ipin WBLB
+*.ipin WBL
+*.ipin RWL
+*.ipin WWL
+*.ipin VDD
+*.ipin PRE_B
+*.ipin CL
+*.ipin SHARE
+*.ipin SHARE_B
+XM1 0 q qb 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM2 VDD q qb VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM3 q qb VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM4 q qb 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM5 qb WWL WBLB 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM6 WBL WWL q 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM7 output q 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM8 net1 RWL output 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+C1 net1 0 10f
+XM9 CL SHARE net1 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM10 net1 PRE_B VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM11 CL SHARE_B net1 VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+.ends
+
+.end

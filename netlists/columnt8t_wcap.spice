@@ -1,0 +1,68 @@
+** sch_path: /home/blazeinkid/cim_project/schematics/columnt8t_wcap.sch
+**.subckt columnt8t_wcap VDD WBL WBLB SHARE_B SHARE PRE_B CL WWL1 RWL1 WWL2 RWL2 WWL3 RWL3 WWL4 RWL4 WWL5 RWL5 WWL6 RWL6 WWL7 RWL7
+*+ WWL8 RWL8
+*.iopin VDD
+*.ipin WBL
+*.ipin WBLB
+*.ipin SHARE_B
+*.ipin SHARE
+*.ipin PRE_B
+*.opin CL
+*.ipin WWL1
+*.ipin RWL1
+*.ipin WWL2
+*.ipin RWL2
+*.ipin WWL3
+*.ipin RWL3
+*.ipin WWL4
+*.ipin RWL4
+*.ipin WWL5
+*.ipin RWL5
+*.ipin WWL6
+*.ipin RWL6
+*.ipin WWL7
+*.ipin RWL7
+*.ipin WWL8
+*.ipin RWL8
+x1 CL VDD WWL1 RWL1 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+x2 CL VDD WWL2 RWL2 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+x3 CL VDD WWL3 RWL3 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+x4 CL VDD WWL4 RWL4 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+x5 CL VDD WWL5 RWL5 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+x6 CL VDD WWL6 RWL6 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+x7 CL VDD WWL7 RWL7 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+x8 CL VDD WWL8 RWL8 WBL WBLB SHARE_B SHARE PRE_B sram_8t_wcap
+**.ends
+
+* expanding   symbol:  sram_8t_wcap.sym # of pins=9
+** sym_path: /home/blazeinkid/cim_project/schematics/sram_8t_wcap.sym
+** sch_path: /home/blazeinkid/cim_project/schematics/sram_8t_wcap.sch
+.subckt sram_8t_wcap CL VDD WWL RWL WBL WBLB SHARE_B SHARE PRE_B
+*.ipin WBLB
+*.ipin WBL
+*.ipin RWL
+*.ipin WWL
+*.ipin VDD
+*.ipin PRE_B
+*.ipin CL
+*.ipin SHARE
+*.ipin SHARE_B
+XM1 0 q qb 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM2 VDD q qb VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM3 q qb VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM4 q qb 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM5 qb WWL WBLB 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM6 WBL WWL q 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM7 output q 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM8 net1 RWL output 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+C1 net1 0 {10f*(1+csig*agauss(0,1,1))}
+XM9 CL SHARE net1 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM10 net1 PRE_B VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM11 CL SHARE_B net1 VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+.ends
+
+.end

@@ -1,0 +1,60 @@
+** sch_path: /home/blazeinkid/cim_project/schematics/sram8t_test.sch
+**.subckt sram8t_test
+x1 CL VDD WWL RWL WBL WBLB SHARE_B SHARE PRE_B sram8t_bitcell
+**** begin user architecture code
+
+
+.lib /usr/local/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+
+* case select: stored w=1 -> w_bl=1.8 w_blb=0 ; w=0 -> w_bl=0 w_blb=1.8 ; x = xin
+.param w_bl=1.8 w_blb=0 xin=1.8
+
+Vsup  VDD   0 1.8
+* write the weight in 0-5 ns, then turn the write port off
+Vwwl  WWL   0 PWL(0 1.8 4.9n 1.8 5n 0)
+Vwbl  WBL   0 PWL(0 {w_bl}  4.9n {w_bl}  5n 0)
+Vwblb WBLB  0 PWL(0 {w_blb} 4.9n {w_blb} 5n 0)
+* reset 0-10 ns | compute 10-20 | share 20-30 | read 30-40
+Vpre  PRE_B   0 PWL(0 0 9.9n 0 10n 1.8)
+Vsh   SHARE   0 PWL(0 1.8 9.9n 1.8 10n 0 19.9n 0 20n 1.8)
+Vshb  SHARE_B 0 PWL(0 0 9.9n 0 10n 1.8 19.9n 1.8 20n 0)
+Vrwl  RWL     0 PWL(0 0 10.1n 0 10.2n {xin} 19.8n {xin} 19.9n 0)
+* 7 other cells' worth of capacitance on the column, so one cell behaves like a column of 8
+Ccl   CL 0 70f
+
+.tran 0.05n 40n uic
+.save v(x1.q) v(x1.qb) v(x1.net1) v(CL)
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  sram8t_bitcell.sym # of pins=9
+** sym_path: /home/blazeinkid/cim_project/schematics/sram8t_bitcell.sym
+** sch_path: /home/blazeinkid/cim_project/schematics/sram8t_bitcell.sch
+.subckt sram8t_bitcell CL VDD WWL RWL WBL WBLB SHARE_B SHARE PRE_B
+*.ipin WBLB
+*.ipin WBL
+*.ipin RWL
+*.ipin WWL
+*.ipin VDD
+*.ipin PRE_B
+*.ipin CL
+*.ipin SHARE
+*.ipin SHARE_B
+XM1 0 q qb 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM2 VDD q qb VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM3 q qb VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM4 q qb 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM5 qb WWL WBLB 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM6 WBL WWL q 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM7 output q 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM8 net1 RWL output 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+C1 net1 0 10f
+XM9 CL SHARE net1 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM10 net1 PRE_B VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM11 CL SHARE_B net1 VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+.ends
+
+.end

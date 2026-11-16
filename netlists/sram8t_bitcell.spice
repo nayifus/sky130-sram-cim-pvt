@@ -1,24 +1,29 @@
-* sram8t_bitcell - text form of the Xschem cell schematic (schematics/sram8t_bitcell.sch).
-* All devices: SKY130 1.8 V core devices, W = 1 um, L = 0.15 um, nf = 1 (pin order D G S B)
-* Capacitor C1 is an IDEAL SPICE capacitor (not sky130_fd_pr__cap_mim_m3_1).
-* Symbol pin order: CL VDD WWL RWL WBL WBLB SHARE_B SHARE PRE_B ; ground is global node 0
-.subckt sram8t_bitcell CL VDD WWL RWL WBL WBLB SHARE_B SHARE PRE_B
-* --- 6T storage core ---
-XM1 0    q    qb   0   sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1   ; pull-down (gate q)
-XM2 VDD  q    qb   VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1   ; pull-up   (gate q)
-XM3 q    qb   VDD  VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1   ; pull-up   (gate qb)
-XM4 q    qb   0    0   sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1   ; pull-down (gate qb)
-XM5 qb   WWL  WBLB 0   sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1   ; write access
-XM6 WBL  WWL  q    0   sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1   ; write access
-* --- decoupled read stack: net1 -> M8 (gate RWL = input) -> output -> M7 (gate q = weight) -> 0 ---
-XM7 output q   0      0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1
-XM8 net1   RWL output 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1
-* --- local compute capacitor on node net1 (called t in the paper) ---
+** sch_path: /home/blazeinkid/cim_project/schematics/sram8t_bitcell.sch
+**.subckt sram8t_bitcell WBLB WBL RWL WWL VDD PRE_B CL SHARE SHARE_B
+*.ipin WBLB
+*.ipin WBL
+*.ipin RWL
+*.ipin WWL
+*.ipin VDD
+*.ipin PRE_B
+*.ipin CL
+*.ipin SHARE
+*.ipin SHARE_B
+XM1 0 q qb 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM2 VDD q qb VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM3 q qb VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM4 q qb 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM5 qb WWL WBLB 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM6 WBL WWL q 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM7 output q 0 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0 mult=1
+XM8 net1 RWL output 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
 C1 net1 0 10f
-* Monte Carlo cell variant (sram8t_bitcell_mm) uses instead:
-* C1 net1 0 {10f*(1+csig*agauss(0,1,1))}
-* --- per-cell precharge and per-cell transmission-gate share switch ---
-XM10 net1 PRE_B   VDD  VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1
-XM9  CL   SHARE   net1 0   sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1
-XM11 CL   SHARE_B net1 VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1
-.ends
+XM9 CL SHARE net1 0 sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM10 net1 PRE_B VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+XM11 CL SHARE_B net1 VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1
+**.ends
+.end
