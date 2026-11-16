@@ -1,0 +1,7 @@
+dataset,network,ideal,pvt_track_min,pvt_track_mean,pvt_fixed_min,pvt_fixed_mean,worst_array_3sigma,sigma_0.2,sigma_0.3
+mnist,mlp,95.36,95.36,95.36,86.64,92.46,95.31,95.11,93.89
+mnist,cnn_small,95.06,95.06,95.06,52.61,81.97,94.27,92.85,70.06
+mnist,cnn_wide,96.05,96.05,96.05,57.36,82.92,95.62,94.69,75.88
+fashion,mlp,81.01,81.01,81.01,76.3,79.41,80.93,80.77,79.83
+fashion,cnn_small,73.98,73.98,73.98,63.17,68.84,73.36,73.34,67.74
+fashion,cnn_wide,76.38,76.38,76.38,67.94,73.28,75.19,75.76,69.5

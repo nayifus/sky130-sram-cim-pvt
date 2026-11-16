@@ -1,0 +1,28 @@
+* Hold and read static noise margin (butterfly) for the sram8t_bitcell 6T core.
+* Not yet run as part of the published results. Adjust the .lib path to your PDK install.
+* One half-cell (pull-up, pull-down, write-access device, all W=1 L=0.15) with its
+* input swept. The cell is symmetric, so the second VTC is this one mirrored about y=x.
+*   hold: WWL = 0
+*   write-port read stress (6T-style read, WBL precharged high, WWL on): WWL = VDD
+* The 8T compute read does NOT go through the access devices (it uses the M7/M8 stack),
+* so the hold SNM is the relevant stability number during compute.
+.lib /usr/local/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.param vdd_v=1.8 wl=0
+Vsup VDD 0 {vdd_v}
+Vwl  WWL 0 {wl}
+Vbl  WBL 0 {vdd_v}
+Vin  IN  0 0
+XPU OUT IN  VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1
+XPD OUT IN  0   0   sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1
+XAX WBL WWL OUT 0   sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1
+.dc Vin 0 1.8 0.002
+.control
+run
+wrdata vtc_hold.txt v(out)
+alterparam wl=1.8
+reset
+run
+wrdata vtc_read.txt v(out)
+.endc
+.end
+* Then:  python3 snm.py vtc_hold.txt   and   python3 snm.py vtc_read.txt

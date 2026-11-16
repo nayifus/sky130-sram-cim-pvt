@@ -1,0 +1,38 @@
+case,W+ error,W- error,acc
+"matched, ideal",0,0,95.06
+"skew W+ only, bias -1.0",-1.0,0,11.35
+"skew W- only, bias -1.0",0,-1.0,10.16
+"skew W+ only, bias -0.8",-0.8,0,11.35
+"skew W- only, bias -0.8",0,-0.8,10.16
+"skew W+ only, bias -0.6",-0.6,0,11.35
+"skew W- only, bias -0.6",0,-0.6,10.16
+"skew W+ only, bias -0.5",-0.5,0,21.63
+"skew W- only, bias -0.5",0,-0.5,12.5
+"skew W+ only, bias -0.478",-0.478,0,95.06
+"skew W- only, bias -0.478",0,-0.478,95.06
+"skew W+ only, bias -0.4",-0.4,0,95.06
+"skew W- only, bias -0.4",0,-0.4,95.06
+"skew W+ only, bias -0.3",-0.3,0,95.06
+"skew W- only, bias -0.3",0,-0.3,95.06
+"skew W+ only, bias -0.2",-0.2,0,95.06
+"skew W- only, bias -0.2",0,-0.2,95.06
+"skew W+ only, bias 0.2",0.2,0,95.06
+"skew W- only, bias 0.2",0,0.2,95.06
+"skew W+ only, bias 0.3",0.3,0,95.06
+"skew W- only, bias 0.3",0,0.3,95.06
+"skew W+ only, bias 0.4",0.4,0,95.06
+"skew W- only, bias 0.4",0,0.4,95.06
+"skew W+ only, bias 0.478",0.478,0,95.06
+"skew W- only, bias 0.478",0,0.478,95.06
+"skew W+ only, bias 0.5",0.5,0,12.74
+"skew W- only, bias 0.5",0,0.5,39.07
+"skew W+ only, bias 0.6",0.6,0,10.1
+"skew W- only, bias 0.6",0,0.6,11.35
+"opposite, +/-0.2",-0.2,0.2,95.06
+"opposite, +/-0.3",-0.3,0.3,95.06
+"opposite, +/-0.4",-0.4,0.4,95.06
+"opposite, +/-0.478",-0.478,0.478,95.06
+"measured table ('ss', 1.62, -40), both columns (matched)",table,table,95.06
+"measured table ('ss', 1.62, -40) on W+ only",table,0,95.06
+"measured table ('ss', 1.62, -40) on W- only",0,table,95.06
+"table on W+, table + sigma 0.036 (3 sigma mismatch)",table+0.036,0,94.8

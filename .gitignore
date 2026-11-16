@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+data/
+dnn_out/
+cmp_out/
+*_out/
+*.raw
+*.log
+.DS_Store

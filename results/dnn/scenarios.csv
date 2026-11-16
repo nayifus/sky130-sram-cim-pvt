@@ -1,0 +1,10 @@
+scenario,acc
+ideal,95.06
+ours: PVT 0.29 + corrected offset (0.095/8 per row) + sigma 0.012,95.06
+"ours, opposite PVT sign",95.06
+no offset correction (0.51/8 per row) + PVT 0.29,95.06
+"no offset correction, PVT 0",95.06
+"short window Td=150ps: bias -0.26, sigma 0.011",95.06
+cap mismatch 5%: sigma 0.054,95.06
+stress: sigma 0.3,69.94
+stress: sigma 0.5,47.82
