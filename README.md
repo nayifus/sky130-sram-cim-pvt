@@ -2,8 +2,6 @@
 
 An 8T charge-domain SRAM compute-in-memory (CIM) column and 8×4 array in the open **SkyWater SKY130** process, characterized across process, voltage and temperature (PVT) and mismatch with **Xschem + ngspice**, and linked to neural-network accuracy with **PyTorch** error injection. Everything uses open-source tools.
 
-Final-year B.E. project, Department of Electronics and Telecommunication Engineering, Pune Institute of Computer Technology (PICT), Pune.
-Authors: Sufiyan Shaikh, Kaushik Joshi, Kaiwalya Pawar. Guide: Dr. Shaveta Thakral.
 
 ## Design
 - **Cell (`sram8t_bitcell`)**: 6T storage core + decoupled read stack (M8 gated by the input RWL, M7 gated by the stored bit) + 10 fF local capacitor + per-cell PMOS precharge + per-cell transmission-gate share switch to the column node CL. All transistors `sky130_fd_pr__nfet_01v8` / `pfet_01v8`, W = 1 µm, L = 0.15 µm. The capacitor is an ideal SPICE capacitor.
